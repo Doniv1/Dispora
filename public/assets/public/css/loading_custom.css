@@ -1,0 +1,117 @@
+
+.modal-loading {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 9999;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: hidden;
+    /* Hide scrollbars */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-spinner-parent{
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px 50px;
+    text-align: center;
+    position: relative;
+}
+
+.logo-spinner-parent .logo-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-spinner-parent .logo-spinner img {
+    width: 40px;
+    position: absolute;
+}
+
+.logo-spinner-parent .logo-spinner .logo-spinner-loader {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 2px solid var(--bs-primary);
+    width: 50px;
+    height: 50px;
+    animation: spin_loader 1s linear infinite;
+    margin: 0 auto;
+}
+
+.modal-loading .modal-loading-content {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px 50px;
+    text-align: center;
+    position: relative;
+}
+.modal-loading .base-spinner{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom: 20px;
+    position: relative;
+}
+.modal-loading .base-spinner img {
+    width: 40px;
+    position: absolute;
+}
+.modal-loading .base-spinner .img {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+}
+.modal-loading .base-spinner .spinner-loader {
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 2px solid var(--bs-primary);
+    width: 80px;
+    height: 80px;
+    animation: spin_loader 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin_loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Container transisi logo */
+.logo-transition-loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+/* Gaya logo */
+.logo-brands-loader {
+    position: absolute;
+    transition: all 1s ease-in-out;
+    opacity: 1;
+}
+
+.logo-brands-loader.hidden {
+    opacity: 0;
+    transform: scale(1.2);
+}

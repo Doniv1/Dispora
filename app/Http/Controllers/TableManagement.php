@@ -368,10 +368,10 @@ class TableManagement extends Controller
       if ($item->status == 'Y') {
         $checked = 'checked';
       }
-      $status = '';
-      $status .= '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_contact . ')" data-primary="id_contact"  data-url="' . url('switch/contacts') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_contact . '" ' . $checked . '></div>';
-      $status .= '</div>';
+      // $status = '';
+      // $status .= '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_contact . ')" data-primary="id_contact"  data-url="' . url('switch/contacts') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_contact . '" ' . $checked . '></div>';
+      // $status .= '</div>';
       // ACTION
       $action = '';
       $action .= '<div class="d-flex justify-content-end flex-shrink-0">
@@ -385,7 +385,7 @@ class TableManagement extends Controller
         $item->name,
         $item->email,
         $item->message,
-        $status,
+        // $status,
         $action
       ];
     }
@@ -685,7 +685,7 @@ class TableManagement extends Controller
     ];
 
     // Query utama: join ke kategori dan hitung jumlah pendaftar
-    $query = Training::with(['category'])
+    $query = Training::with(['category', 'trainingVectors.vector'])
       ->withCount('registrations')
       ->join('categories', 'categories.id_category', '=', 'trainings.id_category')
       ->select('trainings.*', 'categories.name as category_name', DB::raw('(select count(*) from regis_trainings where regis_trainings.id_training = trainings.id_training AND regis_trainings.approved = "Y") as registrations_count'));

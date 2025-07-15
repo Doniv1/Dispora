@@ -188,6 +188,23 @@ class SettingController extends Controller
             }
         }
 
+        // META KEYWORD
+        // $metaKeywordRaw = $request->input('meta_keyword', '');
+        // if ($metaKeywordRaw) {
+        //     $decoded = json_decode($metaKeywordRaw, true);
+        //     $cleaned = [];
+        //     foreach ($decoded as $item) {
+        //         $val = str_replace(["'", '"', "`"], "", $item['value']);
+        //         $cleaned[] = $val;
+        //     }
+        //     $post['meta_keyword'] = implode(',', $cleaned);
+        // } else {
+        //     $post['meta_keyword'] = '';
+        // }
+
+        
+        $post['meta_address'] = $request->input('meta_address', '');
+
         // PHONE
         $phones = $request->input('phone', []);
         $namePhones = $request->input('name_phone', []);

@@ -14,7 +14,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Vector;
 use App\Models\Training;
-// use App\Models\TrainingVector;
+use App\Models\TrainingVector;
 use App\Models\RegisTraining;
 use App\Models\Banner;
 use App\Models\Form;

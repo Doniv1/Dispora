@@ -42,7 +42,7 @@
                         <th class="min-w-200px">Name</th>
                         <th class="min-w-150px">Email</th>
                         <th class="min-w-200px">Message</th>
-                        <th class="min-w-100px text-center">Status</th>
+                       
                         <th class="text-end min-w-70px" data-orderable="false" data-searchable="false">Actions</th>
                     </tr>
                 </thead>

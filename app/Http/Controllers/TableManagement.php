@@ -19,7 +19,6 @@ use App\Models\Category;
 use App\Models\Form;
 use App\Models\Vector;
 use App\Models\Training;
-use App\Models\TrainingVector;
 use App\Models\Banner;
 use App\Models\RegisTraining;
 use Illuminate\Support\Facades\Log;
@@ -686,7 +685,7 @@ class TableManagement extends Controller
     ];
 
     // Query utama: join ke kategori dan hitung jumlah pendaftar
-    $query = Training::with(['category', 'trainingVectors.vector'])
+    $query = Training::with(['category'])
       ->withCount('registrations')
       ->join('categories', 'categories.id_category', '=', 'trainings.id_category')
       ->select('trainings.*', 'categories.name as category_name', DB::raw('(select count(*) from regis_trainings where regis_trainings.id_training = trainings.id_training AND regis_trainings.approved = "Y") as registrations_count'));
@@ -730,14 +729,14 @@ class TableManagement extends Controller
       $image .= '</div>';
 
       // VECTOR LIST
-      $list = '';
-      if ($item->trainingVectors->isNotEmpty()) {
-        $list .= '<div class="d-flex flex-column text-gray-600">';
-        foreach ($item->trainingVectors as $key) {
-          $list .= '<div class="d-flex align-items-center py-2"><span class="bullet bg-primary me-3"></span>' . $key->vector->name . '</div>';
-        }
-        $list .= '</div>';
-      }
+      // $list = '';
+      // if ($item->trainingVectors->isNotEmpty()) {
+      //   $list .= '<div class="d-flex flex-column text-gray-600">';
+      //   foreach ($item->trainingVectors as $key) {
+      //     $list .= '<div class="d-flex align-items-center py-2"><span class="bullet bg-primary me-3"></span>' . $key->vector->name . '</div>';
+      //   }
+      //   $list .= '</div>';
+      // }
 
       // STATUS
       $checked = $item->status === 'Y' ? 'checked' : '';

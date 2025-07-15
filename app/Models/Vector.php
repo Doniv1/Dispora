@@ -14,8 +14,8 @@ class Vector extends Model
 
     public $timestamps = false;
 
-    public function trainingVectors()
-    {
-        return $this->hasMany(TrainingVector::class,'id_vector','id_vector');
-    }
+//     public function trainingVectors()
+//     {
+//         return $this->hasMany(TrainingVector::class,'id_vector','id_vector');
+//     }
 }

@@ -9,18 +9,13 @@ class TrainingVector extends Model
     protected $primaryKey = 'id_training_vector';
 
     protected $fillable = [
-        'id_training', 'id_vector', // Sesuaikan field
+        'id_training', 'id_category', // Sesuaikan field
     ];
 
     public $timestamps = false;
-
     public function training()
     {
         return $this->belongsTo(Training::class,'id_training','id_training');
     }
 
-    public function vector()
-    {
-        return $this->belongsTo(Vector::class,'id_vector','id_vector');
-    }
 }

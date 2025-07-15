@@ -19,10 +19,10 @@ class Training extends Model
         return $this->belongsTo(Category::class,'id_category','id_category');
     }
 
-    public function trainingVectors()
-    {
-        return $this->hasMany(TrainingVector::class,'id_training','id_training');
-    }
+    // public function trainingVectors()
+    // {
+    //     return $this->hasMany(TrainingVector::class,'id_training','id_training');
+    // }
 
     public function registrations()
     {

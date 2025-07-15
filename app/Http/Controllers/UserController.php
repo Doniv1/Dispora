@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\Form;
 use App\Models\Contact;
 use App\Models\Banner;
+use App\Models\Subscribe;
 use App\Models\Training;
 use App\Models\RegisTraining;
 use App\Models\RegisTrainingDetail;
@@ -66,7 +67,7 @@ class UserController extends Controller
 
     return view('user.index', $data);
   }
-
+  
   public function training(Request $request)
   {
     // Variabel dasar
@@ -225,7 +226,61 @@ class UserController extends Controller
     ]);
   }
 
- 
+  public function insert_subscribe(Request $request)
+  {
+    $arrVar = [
+      'email' => 'Alamat email'
+    ];
+
+    $data = ['required' => [], 'arrAccess' => []];
+    $post = [];
+
+    // Validasi input satu per satu (sesuai dengan logika CI3-mu)
+    foreach ($arrVar as $var => $label) {
+      $$var = $request->input($var);
+      if (!$$var) {
+        $data['required'][] = ['req_subscribe_' . $var, "$label tidak boleh kosong!"];
+        $data['arrAccess'][] = false;
+      } else {
+        $post[$var] = trim($$var);
+        $data['arrAccess'][] = true;
+      }
+    }
+
+    // Jika ada input yang kosong, return error
+    if (in_array(false, $data['arrAccess'])) {
+      return response()->json(['status' => false, 'required' => $data['required']]);
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      return response()->json([
+        'status' => 700,
+        'alert' => ['message' => 'Format alamat email tidak valid!']
+      ]);
+    }
+
+    if (Subscribe::where('email', $email)->exists()) {
+      return response()->json([
+        'status' => 500,
+        'alert' => ['message' => 'Email yang anda masukan sudah terdaftar!'],
+      ]);
+    }
+    // Insert ke database
+    $insert = Subscribe::create($post);
+
+    if ($insert) {
+      return response()->json([
+        'status' => true,
+        'alert' => ['message' => 'Berhasil berlangganan!'],
+        'input' => ['all' => true]
+      ]);
+    }
+
+    return response()->json([
+      'status' => false,
+      'alert' => ['message' => 'Gagal berlangganan!'],
+    ]);
+  }
 
 
   public function get_detail_training(Request $request)

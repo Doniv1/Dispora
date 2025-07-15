@@ -89,11 +89,6 @@ Route::middleware(DashboardRoleAccess::class)->group(function () {
   // DASHBOARD
     Route::controller(DashboardController::class)->group(function () {
     // PROFILE
-    Route::post('/dashboard/updateEmail', 'updateEmail')->name('email.update');
-    Route::post('/dashboard/updatePassword', 'updatePassword')->name('password.update');
-    Route::post('/dashboard/accountDeactivated', 'accountDeactivated')->name('account.deactivated');
-    Route::post('/dashboard/updateProfile', 'updateProfile')->name('admin.profile.update');
-    Route::post('/detail/pengaduan', 'detail_pengaduan')->name('detail.pengaduan');
   });
 
   // DATATABLE

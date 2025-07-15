@@ -188,23 +188,6 @@ class SettingController extends Controller
             }
         }
 
-        // META KEYWORD
-        // $metaKeywordRaw = $request->input('meta_keyword', '');
-        // if ($metaKeywordRaw) {
-        //     $decoded = json_decode($metaKeywordRaw, true);
-        //     $cleaned = [];
-        //     foreach ($decoded as $item) {
-        //         $val = str_replace(["'", '"', "`"], "", $item['value']);
-        //         $cleaned[] = $val;
-        //     }
-        //     $post['meta_keyword'] = implode(',', $cleaned);
-        // } else {
-        //     $post['meta_keyword'] = '';
-        // }
-
-        // $post['meta_description'] = $request->input('meta_description', '');
-        // $post['meta_address'] = $request->input('meta_address', '');
-
         // PHONE
         $phones = $request->input('phone', []);
         $namePhones = $request->input('name_phone', []);
@@ -750,54 +733,5 @@ class SettingController extends Controller
         }
     }
 
-    public function export(Request $request)
-    {
-        $db = $request->input('db');
-        $primary = $request->input('primary') ?? "id_{$db}";
-        $type = $request->input('type') ?? 'excel';
-
-        // Check if the table exists
-        if (!DB::getSchemaBuilder()->hasTable($db)) {
-            return response()->json([
-                'status' => 500,
-                'alert' => [
-                    'message' => 'Table not found!'
-                ]
-            ]);
-        }
-
-        // Check if the table has data
-        $data = DB::table($db)->get();
-
-        if ($data->isEmpty()) {
-            return response()->json([
-                'status' => 500,
-                'alert' => [
-                    'message' => 'No data available to export!'
-                ]
-            ]);
-        }
-
-        try {
-            // You can customize the export logic here
-            $filename = $db . '_export_' . now()->format('Ymd_His') . '.' . ($type === 'pdf' ? 'pdf' : 'xlsx');
-
-            if ($type == 'pdf') {
-                // Example PDF export logic (using dompdf/snappy/etc)
-                $pdf = PDF::loadView("exports.{$db}", compact('data'));
-                return $pdf->download($filename);
-            } else {
-                // Example Excel export (using maatwebsite/excel)
-                return Excel::download(new GenericExport($db, $data), $filename);
-            }
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'alert' => [
-                    'message' => 'Export failed! ' . $e->getMessage()
-                ]
-            ]);
-        }
-    }
+    
 }

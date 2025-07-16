@@ -16,7 +16,6 @@ use App\Models\User;
 use App\Models\Form;
 use App\Models\Contact;
 use App\Models\Banner;
-use App\Models\Subscribe;
 use App\Models\Training;
 use App\Models\RegisTraining;
 use App\Models\RegisTrainingDetail;
@@ -79,20 +78,20 @@ class UserController extends Controller
 
     // Query awal
     $query = Training::with(['category'])
-      ->where('status', 'Y')
-      ->where('deleted', 'N')
-      ->whereHas('category', function ($q) {
-        $q->where('status', 'Y')->where('deleted', 'N');
-      });
+        ->where('status', 'Y')
+        ->where('deleted', 'N')
+        ->whereHas('category', function ($q) {
+            $q->where('status', 'Y')->where('deleted', 'N');
+        });
 
     // Filter search
     if (!empty($search)) {
-      $query->where(function ($q) use ($search) {
-        $q->where('title', 'like', '%' . $search . '%')
-          ->orWhereHas('category', function ($qc) use ($search) {
-            $qc->where('name', 'like', '%' . $search . '%');
-          });
-      });
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'like', '%' . $search . '%')
+                ->orWhereHas('category', function ($qc) use ($search) {
+                    $qc->where('name', 'like', '%' . $search . '%');
+                });
+        });
     }
 
     // Hitung total data
@@ -100,21 +99,42 @@ class UserController extends Controller
 
     // Ambil data dengan paginasi manual
     $result = $query->orderBy('created_at', 'desc')
-      ->offset($start)
-      ->limit($limit)
-      ->get();
+        ->offset($start)
+        ->limit($limit)
+        ->get();
+
+    // Ambil data rekomendasi jika user login dan memiliki kategori
+    $recommended = [];
+
+    if (Auth::check() && Auth::user()->id_category) {
+        $user = Auth::user();
+
+        $trainings = Training::with('category')
+            ->where('status', 'Y')
+            ->where('id_category', $user->id_category)
+            ->orderBy('created_at', 'desc')
+            ->take(9)
+            ->get();
+
+        // Format ulang agar sama dengan tampilan di view
+        $recommended = $trainings->map(function ($item) {
+            return ['training' => $item];
+        });
+    }
 
     // Data ke view
     return view('user.training', [
-      'title' => $title,
-      'result' => $result,
-      'jumlah' => $jumlah,
-      'offset' => $offset,
-      'start' => $start,
-      'search' => $search,
-      'total' => ($jumlah > 0) ? ceil($jumlah / $limit) : 0,
+        'title' => $title,
+        'result' => $result,
+        'jumlah' => $jumlah,
+        'offset' => $offset,
+        'start' => $start,
+        'search' => $search,
+        'total' => ($jumlah > 0) ? ceil($jumlah / $limit) : 0,
+        'recommended' => $recommended
     ]);
   }
+
 
   public function mytraining(Request $request)
   {
@@ -126,45 +146,59 @@ class UserController extends Controller
     $prefix = config('session.prefix');
     $id_user = session($prefix . '_id_user');
 
-    // Query dari regis_trainings, karena 1 training bisa didaftar berkali-kali
-    $query = RegisTraining::with(['training.category']) // include training & category
-      ->where('id_user', $id_user)
-      ->where('deleted', 'N')
-      ->whereHas('training', function ($q) use ($search) {
-        $q->where('status', 'Y')
-          ->where('deleted', 'N')
-          ->whereHas('category', function ($qc) {
-            $qc->where('status', 'Y')->where('deleted', 'N');
-          });
-
-        // Filter search (jika ada)
-        if (!empty($search)) {
-          $q->where(function ($qs) use ($search) {
-            $qs->where('title', 'like', '%' . $search . '%')
-              ->orWhereHas('category', function ($qc) use ($search) {
-                $qc->where('name', 'like', '%' . $search . '%');
+    // Ambil semua data pelatihan yang didaftar
+    $query = RegisTraining::with(['training.category'])
+        ->where('id_user', $id_user)
+        ->where('deleted', 'N')
+        ->whereHas('training', function ($q) use ($search) {
+            $q->where('status', 'Y')
+              ->where('deleted', 'N')
+              ->whereHas('category', function ($qc) {
+                  $qc->where('status', 'Y')->where('deleted', 'N');
               });
-          });
-        }
-      });
+
+            if (!empty($search)) {
+                $q->where(function ($qs) use ($search) {
+                    $qs->where('title', 'like', '%' . $search . '%')
+                       ->orWhereHas('category', function ($qc) use ($search) {
+                           $qc->where('name', 'like', '%' . $search . '%');
+                       });
+                });
+            }
+        });
 
     $jumlah = $query->count();
 
     $result = $query->orderBy('created_at', 'desc')
-      ->offset($start)
-      ->limit($limit)
-      ->get();
+        ->offset($start)
+        ->limit($limit)
+        ->get();
+
+    // ✅ Ambil notifikasi yang belum dibaca dan sudah disetujui
+    $notifikasi = RegisTraining::with('training')
+        ->where('id_user', $id_user)
+        ->where('approved', 'Y')
+        ->where('is_notified', 'N')
+        ->get();
+
+    // ✅ Ubah is_notified jadi 'Y' agar tidak muncul lagi di reload berikutnya
+    foreach ($notifikasi as $n) {
+        $n->is_notified = 'Y';
+        $n->save();
+    }
 
     return view('user.mytraining', [
-      'title' => $title,
-      'result' => $result,
-      'jumlah' => $jumlah,
-      'offset' => $offset,
-      'start' => $start,
-      'search' => $search,
-      'total' => ($jumlah > 0) ? ceil($jumlah / $limit) : 0,
+        'title' => $title,
+        'result' => $result,
+        'jumlah' => $jumlah,
+        'offset' => $offset,
+        'start' => $start,
+        'search' => $search,
+        'total' => ($jumlah > 0) ? ceil($jumlah / $limit) : 0,
+        'notifikasi' => $notifikasi, // Kirim ke view
     ]);
   }
+
 
 
 
@@ -223,62 +257,6 @@ class UserController extends Controller
     return response()->json([
       'status' => false,
       'alert' => ['message' => 'Gagal menambahkan pesan!'],
-    ]);
-  }
-
-  public function insert_subscribe(Request $request)
-  {
-    $arrVar = [
-      'email' => 'Alamat email'
-    ];
-
-    $data = ['required' => [], 'arrAccess' => []];
-    $post = [];
-
-    // Validasi input satu per satu (sesuai dengan logika CI3-mu)
-    foreach ($arrVar as $var => $label) {
-      $$var = $request->input($var);
-      if (!$$var) {
-        $data['required'][] = ['req_subscribe_' . $var, "$label tidak boleh kosong!"];
-        $data['arrAccess'][] = false;
-      } else {
-        $post[$var] = trim($$var);
-        $data['arrAccess'][] = true;
-      }
-    }
-
-    // Jika ada input yang kosong, return error
-    if (in_array(false, $data['arrAccess'])) {
-      return response()->json(['status' => false, 'required' => $data['required']]);
-    }
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      return response()->json([
-        'status' => 700,
-        'alert' => ['message' => 'Format alamat email tidak valid!']
-      ]);
-    }
-
-    if (Subscribe::where('email', $email)->exists()) {
-      return response()->json([
-        'status' => 500,
-        'alert' => ['message' => 'Email yang anda masukan sudah terdaftar!'],
-      ]);
-    }
-    // Insert ke database
-    $insert = Subscribe::create($post);
-
-    if ($insert) {
-      return response()->json([
-        'status' => true,
-        'alert' => ['message' => 'Berhasil berlangganan!'],
-        'input' => ['all' => true]
-      ]);
-    }
-
-    return response()->json([
-      'status' => false,
-      'alert' => ['message' => 'Gagal berlangganan!'],
     ]);
   }
 

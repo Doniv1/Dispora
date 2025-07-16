@@ -48,7 +48,7 @@
                     @if ($recommended && !empty($recommended))
                         <!--/.row -->
                         <div class="swiper-container nav-bottom nav-color mb-14 swiper-container-3" data-margin="30"
-                            data-dots="false" data-nav="true" data-items-lg="3" data-items-md="2" data-items-xs="1">
+                            data-dots="false" data-nav="true" data-items-lg="3" data-items-md="2" data-items-xs="1" id="Rekomendasi">
                             <div
                                 class="swiper overflow-visible pb-2 swiper-initialized swiper-horizontal swiper-backface-hidden">
                                 <div class="swiper-wrapper" id="swiper-wrapper-8af71f4d98f5d8e0" aria-live="off"
@@ -83,7 +83,7 @@
                                                                     role="button">{{ short_text($row['training']->title, 40) }}</a>
                                                             </h2>
                                                             <p class="h10 mt-1 mb-3">
-                                                                {{ short_text($row['training']->sort_description, 60) }}</p>
+                                                                {{ short_text($row['training']->sort_description, 200) }}</p>
                                                         </div>
                                                         <!-- /.post-header -->
                                                         <div class="post-footer">
@@ -181,7 +181,7 @@
                                                         <h2 class="post-title h4 mt-1 mb-1"><a class="link-dark"
                                                                 role="button">{{ short_text($row->title, 40) }}</a></h2>
                                                         <p class="h10 mt-1 mb-3">
-                                                            {{ short_text($row->sort_description, 60) }}</p>
+                                                            {{ short_text($row->sort_description, 100) }}</p>
                                                     </div>
                                                     <!-- /.post-header -->
                                                     <div class="post-footer">
@@ -222,9 +222,9 @@
         </div>
         <!-- /.overflow-hidden -->
     </section>
-
+<div id="about">
     @if ($setting->about)
-        <section class="wrapper image-wrapper bg-image bg-overlay text-white"
+        <section class="wrapper image-wrapper bg-image bg-overlay text-white" 
             data-image-src="{{ image_check('about.jpg', 'setting') }}"
             style="background-image: url({{ image_check('about.jpg', 'setting') }});">
             <div class="container py-14 py-md-17 text-center">
@@ -239,6 +239,7 @@
             <!-- /.container -->
         </section>
     @endif
+</div>
 
     <section class="wrapper bg-light" id="contact">
         <div class="container py-14 py-md-16">

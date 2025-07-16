@@ -4,6 +4,34 @@
 <!-- /header -->
 <section class="wrapper bg-gray">
     <div class="container pt-10 pb-14 pb-md-16">
+
+{{-- Rekomendasi Pelatihan --}}
+        @if(isset($recommended) && count($recommended) > 0)
+            <h4 class="text-center text-primary fw-bold mb-4">Rekomendasi Pelatihan Untuk Anda</h4>
+            <div class="row grid-view gx-md-8 gx-xl-10 gy-8 mb-10">
+                @foreach ($recommended as $row)
+                    <div class="col-md-6 col-lg-4 mx-auto mb-3" id="recommended-training-{{ $row['training']->id_training }}">
+                        <a role="button" 
+                           data-image="{{ image_check($row['training']->image,'training') }}" 
+                           onclick="detail_training(this,{{ $row['training']->id_training }})" 
+                           data-bs-target="#modalDetailTraining" 
+                           data-bs-toggle="modal" 
+                           class="card cursor-pointer">
+                            <div class="card-body">
+                                <div class="rounded background-partisi w-100 mb-4" 
+                                     style="height: 150px; background-image: url({{ image_check($row['training']->image,'training') }}); background-size: cover;">
+                                </div>
+                                <h4 class="mb-1">{{ short_text($row['training']->title, 50) }}</h4>
+                                <div class="meta mb-2">{{ $row['training']->category->name ?? '-' }}</div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+
+
         <div class="row grid-view gx-md-8 gx-xl-10 gy-8 gy-lg-0">
             @if(isset($result) && $result->isNotEmpty())
                 @foreach($result as $row)
@@ -18,7 +46,7 @@
                                 <div class="rounded background-partisi w-100 mb-4" 
                                      style="height: 150px; background-image: url({{ image_check($row->image,'training') }})">
                                 </div>
-                                <h4 class="mb-1">{{ short_text($row->title, 20) }}</h4>
+                                <h4 class="mb-1">{{ short_text($row->title, 50) }}</h4>
                                 <div class="meta mb-2">{{ $row->category->name ?? '-' }}</div>
                             </div>
                         </a>

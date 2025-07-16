@@ -235,8 +235,8 @@ class MasterController extends Controller
     return now()->diffInYears(Carbon::parse($born_date));
   }
 
-   public function knnPredictCategory($userInput, $k = 5)
-{
+  public function knnPredictCategory($userInput, $k = 5)
+  {
     // Ambil semua data user lama yang memiliki kategori
     $allUsers = User::whereNotNull('id_category')->where('deleted', 'N')->get();
 
@@ -313,7 +313,7 @@ class MasterController extends Controller
     // Kembalikan kategori dengan jumlah terbanyak
     arsort($counts);
     return array_key_first($counts);
-}
+  }
 
   public function update_user(Request $request)
   {

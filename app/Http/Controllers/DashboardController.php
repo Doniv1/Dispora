@@ -69,6 +69,10 @@ class DashboardController extends Controller
         $data['cnt_admin'] = $cnt_admin;
         $data['cnt_user'] = $cnt_user;
 
+        // Approval List
+        $cnt_pending_approval = RegisTraining::where('approved', 'P')->count();
+        $data['cnt_pending_approval'] = $cnt_pending_approval;
+
         return view('admin.dashboard.index', $data);
     }
 
@@ -98,28 +102,23 @@ class DashboardController extends Controller
 
     public function set_approval(Request $request)
     {
-        $status = $request->input('status','Y');
-        $id = $request->input('id');
-        $result = RegisTraining::find($id);
-        if (!$result) {
-            $data['status'] = false;
-            $data['message'] = 'Cannot find the data';
-            echo json_encode($data);
-            exit;
-        }
+    $id = $request->input('id');
+    $status = $request->input('status');
+
+    $data = RegisTraining::find($id);
+    if ($data) {
         if ($status == 'Y') {
-            $post['approved'] = $status;
-            $update = $result->update($post);
-            $data['status'] = true;
-            $data['message'] = 'Register approved';
-            echo json_encode($data);
-            exit;
-        }else{
-            $result->delete();
-            $data['status'] = true;
-            $data['message'] = 'Register unapproved';
-            echo json_encode($data);
-            exit;
+            $data->approved = 'Y';
+            $data->is_notified = 'N'; // agar user nanti melihat notifikasi
+        } elseif ($status == 'T') {
+            $data->delete(); // langsung hapus jika ditolak
+            return response()->json(['status' => true, 'message' => 'Data telah ditolak dan dihapus!']);
         }
+        $data->save();
+
+        return response()->json(['status' => true, 'message' => 'Status berhasil diperbarui!']);
+    }
+
+    return response()->json(['status' => false, 'message' => 'Data tidak ditemukan.']);
     }
 }

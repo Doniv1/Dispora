@@ -2,7 +2,7 @@
     $segment1 = request()->segment(1);
     $segment2 = request()->segment(2);
 @endphp
-<header class="wrapper bg-light">
+<header class="wrapper bg-light" id="home">
     <nav class="navbar navbar-expand-lg classic transparent navbar-light">
         <div class="container flex-lg-row flex-nowrap align-items-center">
             <div class="navbar-brand w-100">
@@ -37,6 +37,7 @@
                         <li class="nav-item khusus-android">
                             <a role="button" data-bs-target="#modalLogin" data-bs-toggle="modal" class="nav-link">Login</a>
                         </li>
+                        
                     </ul>
                     <!-- /.navbar-nav -->
                     <div class="offcanvas-footer d-lg-none">

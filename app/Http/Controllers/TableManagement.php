@@ -685,7 +685,7 @@ class TableManagement extends Controller
     ];
 
     // Query utama: join ke kategori dan hitung jumlah pendaftar
-    $query = Training::with(['category', 'trainingVectors.vector'])
+    $query = Training::with(['category'])
       ->withCount('registrations')
       ->join('categories', 'categories.id_category', '=', 'trainings.id_category')
       ->select('trainings.*', 'categories.name as category_name', DB::raw('(select count(*) from regis_trainings where regis_trainings.id_training = trainings.id_training AND regis_trainings.approved = "Y") as registrations_count'));

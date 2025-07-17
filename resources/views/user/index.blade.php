@@ -36,19 +36,19 @@
     @endif
 
     @if (session(config('session.prefix') . '_id_user'))
-        <section class="wrapper bg-light" id="home">
+        <section class="wrapper bg-light" id="Rekomendasi">
             <div class="overflow-hidden">
                 <div class="container py-14 py-md-16">
                     <div class="row">
                         <div class="col-xl-7 col-xxl-6 mx-auto text-center">
-                            <h2 class="display-5 text-center mt-2 mb-10">Rekomendasi Pelatihan</h2>
+                            <h2 class="display-5 text-center mt-2 mb-10" >Rekomendasi Pelatihan</h2>
                         </div>
                         <!--/column -->
                     </div>
                     @if ($recommended && !empty($recommended))
                         <!--/.row -->
                         <div class="swiper-container nav-bottom nav-color mb-14 swiper-container-3" data-margin="30"
-                            data-dots="false" data-nav="true" data-items-lg="3" data-items-md="2" data-items-xs="1" id="Rekomendasi">
+                            data-dots="false" data-nav="true" data-items-lg="3" data-items-md="2" data-items-xs="1">
                             <div
                                 class="swiper overflow-visible pb-2 swiper-initialized swiper-horizontal swiper-backface-hidden">
                                 <div class="swiper-wrapper" id="swiper-wrapper-8af71f4d98f5d8e0" aria-live="off"
@@ -358,5 +358,19 @@
         </div>
     </section>
     <!-- /section -->
+
+    @if (session('scroll_to_recommendation'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const el = document.getElementById("Rekomendasi");
+            if (el) {
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: "smooth" });
+                }, 500); // delay agar DOM dan Swiper siap
+            }
+        });
+    </script>
+@endif
+
 
 @endsection

@@ -34,6 +34,9 @@ Route::middleware(UserRoleAccess::class)->group(function () {
   Route::post('/register/training', [UserController::class, 'register_training'])->name('register.training');
   Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
   Route::post('/get_detail_training', [UserController::class, 'get_detail_training'])->name('detail.training');
+  Route::post('/forgot-password/send-otp', [AuthController::class, 'sendOtp'])->name('forgot.send_otp');
+  Route::post('/forgot-password/verify-otp', [AuthController::class, 'verifyOtp'])->name('forgot.verify_otp');
+  Route::post('/forgot-password/change-password', [AuthController::class, 'changePassword'])->name('forgot.change_password');
 });
 
 // Halaman dashboard hanya bisa diakses kalau SUDAH login
@@ -117,8 +120,8 @@ Route::middleware(DashboardRoleAccess::class)->group(function () {
     Route::post('/master/user/update', 'update_user')->name('update.user');
     Route::post('/master/user/insert', 'insert_user')->name('insert.user');
     // ADMIN
-    Route::post('/master/admin/update', 'update_user')->name('update.admin');
-    Route::post('/master/admin/insert', 'insert_user')->name('insert.admin');
+    Route::post('/master/admin/update', 'update_admin')->name('update.admin');
+    Route::post('/master/admin/insert', 'insert_admin')->name('insert.admin');
     // CATEGORY
     Route::post('/master/category/update', 'update_category')->name('update.category');
     Route::post('/master/category/insert', 'insert_category')->name('insert.category');

@@ -45,7 +45,7 @@ function ubah_data(element, id) {
     var foto = $(element).data('image');
     var form = document.getElementById('form_admin');
     $('#title_modal').text(title[0]);
-    form.setAttribute('action', BASE_URL + '/master/user/update');
+    form.setAttribute('action', BASE_URL + '/master/admin/update');
     $.ajax({
         url: BASE_URL + '/single/users/id_user',
         method: form.method,
@@ -69,7 +69,7 @@ function ubah_data(element, id) {
 
 function tambah_data() {
     var form = document.getElementById('form_admin');
-    form.setAttribute('action', BASE_URL + '/master/user/insert');
+    form.setAttribute('action', BASE_URL + '/master/admin/insert');
     $('#title_modal').text(title[1]);
     image.style.backgroundImage = "url('" + user_base_foto + "')";
     $('#form_admin input[type="text"]').val('');
@@ -77,5 +77,3 @@ function tambah_data() {
     $('#form_admin label.password').addClass('required');
     $('#form_admin textarea').val('');
 }
-
-

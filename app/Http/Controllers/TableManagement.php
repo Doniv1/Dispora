@@ -640,10 +640,10 @@ class TableManagement extends Controller
       // ACTION
       $action = '';
       $action .= '<div class="d-flex justify-content-end flex-shrink-0">
-                            <button type="button" class="btn btn-icon btn-warning btn-sm me-1" title="Update" onclick="ubah_data(this,' . $item->id_vector . ')" data-bs-toggle="modal" data-bs-target="#kt_modal_category">
+                            <button type="button" class="btn btn-icon btn-warning btn-sm me-1" title="Update" onclick="ubah_data(this,' . $item->id_vector . ')" data-bs-toggle="modal" data-bs-target="#kt_modal_vector">
                                 <i class="ki-outline ki-pencil fs-2"></i>
                             </button>
-                            <button type="button" onclick="hapus_data(this,event,' . $item->id_vector . ',`vectors`,`id_vector`)" data-datatable="table_category" class="btn btn-icon btn-danger btn-sm" title="Delete">
+                            <button type="button" onclick="hapus_data(this,event,' . $item->id_vector . ',`vectors`,`id_vector`)" data-datatable="table_vector" class="btn btn-icon btn-danger btn-sm" title="Delete">
                                 <i class="ki-outline ki-trash fs-2"></i>
                             </button>
                         </div>';

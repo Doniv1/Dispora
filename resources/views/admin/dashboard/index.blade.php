@@ -140,9 +140,9 @@
         <!--end::Col-->
     </div>
     
-    <div class="row gx-5 gx-xl-10 mb-xl-10">
+    <div class="row gx-5 gx-xl-10 mb-xl-10 justify-content-center">
         <!--begin::Col-->
-        <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 mb-5">
+        <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 mb-5">
         <!--begin::Card widget 16-->
         <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center" style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/abstract.svg') }});background-color: var(--bs-primary);">
             <!--begin::Card body-->
@@ -161,16 +161,16 @@
 
         
         <!--begin::Col-->
-        <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 mb-5">
+        <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 mb-5">
         <!--begin::Card widget 16-->
-        <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center" style="background-position: calc(100% + 20px) calc(0% + 10px);background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/database.svg') }});">
+        <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center" style="background-position: calc(100% + 20px) calc(0% + 10px);background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/database.svg') }}); background-color: var(--bs-primary);">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center py-7 flex-column">
                   <!--begin::Amount-->
-                <span class="fw-bold text-primary me-2 lh-1 ls-n2" style="font-size : 25px;">{{ (isset($cnt_admin) && $cnt_admin) ? number_format($cnt_admin,0,',','.') : 0 }}</span>
+                <span class="fw-bold text-white me-2 lh-1 ls-n2" style="font-size : 25px;">{{ (isset($cnt_admin) && $cnt_admin) ? number_format($cnt_admin,0,',','.') : 0 }}</span>
                 <!--end::Amount-->
                 <!--begin::Subtitle-->
-                <span class="text-dark opacity-50 pt-1 mt-3 fw-semibold fs-6">Total Admin</span>
+                <span class="text-white opacity-50 pt-1 mt-3 fw-semibold fs-6">Total Admin</span>
                 <!--end::Subtitle-->
             </div>
             <!--end::Card body-->
@@ -180,16 +180,16 @@
         <!--end::Col-->
 
         <!--begin::Col-->
-        <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 mb-5">
+        <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 mb-5">
         <!--begin::Card widget 16-->
-        <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center" style="background-position: calc(100% + 20px) calc(0% + 10px);background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/users.svg') }});">
+        <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center" style="background-position: calc(100% + 20px) calc(0% + 10px);background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/users.svg') }}); background-color: var(--bs-primary);">
             <!--begin::Card body-->
             <div class="card-body d-flex justify-content-center py-7 flex-column">
                   <!--begin::Amount-->
-                <span class="fw-bold text-primary me-2 lh-1 ls-n2" style="font-size : 25px;">{{ (isset($cnt_user) && $cnt_user) ? number_format($cnt_user,0,',','.') : 0 }}</span>
+                <span class="fw-bold text-white me-2 lh-1 ls-n2" style="font-size : 25px;">{{ (isset($cnt_user) && $cnt_user) ? number_format($cnt_user,0,',','.') : 0 }}</span>
                 <!--end::Amount-->
                 <!--begin::Subtitle-->
-                <span class="text-dark opacity-50 pt-1 mt-3 fw-semibold fs-6">Total Member</span>
+                <span class="text-white opacity-50 pt-1 mt-3 fw-semibold fs-6">Total Member</span>
                 <!--end::Subtitle-->
             </div>
             <!--end::Card body-->
@@ -198,23 +198,31 @@
         </div>
 
 <!--begin::Col-->
-<div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 mb-5">
+         <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 mb-5">
     <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center"
          style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/approval.svg') }}); background-color: var(--bs-primary);">
         <div class="card-body d-flex justify-content-center py-7 flex-column">
             <span class="fw-bold text-white me-2 lh-1 ls-n2" style="font-size : 25px;">
                 {{ isset($cnt_pending_approval) ? number_format($cnt_pending_approval, 0, ',', '.') : 0 }}
             </span>
-            <span class="text-white opacity-75 pt-1 mt-3 fw-semibold fs-6">Status Pendaftaran Peserta</span>
+            <span class="text-white opacity-75 pt-1 mt-3 fw-semibold fs-6">Pendaftaran Peserta</span>
         </div>
     </div>
-</div>
+        </div>
+
+        <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 mb-5">
+    <div class="card card-custom bgi-no-repeat gutter-b card-stretch border-0 h-md-100 mb-5 mb-xl-10 shadow-sm bgi-size-contain bgi-position-x-center"
+         style="background-position: right top; background-size: 30% auto; background-image: url({{ asset('assets/admin/svg/pesan.svg') }}); background-color: var(--bs-primary);">
+        <div class="card-body d-flex justify-content-center py-7 flex-column">
+            <span class="fw-bold text-white me-2 lh-1 ls-n2" style="font-size : 25px;">
+                 {{ number_format($cnt_contact, 0, ',', '.') }}
+            </span>
+            <span class="text-white opacity-75 pt-1 mt-3 fw-semibold fs-6">Pesan Masuk</span>
+        </div>
+    </div>
+        </div>
 
 <!--end::Col-->
-
-
-        <!--end::Col-->
-
     </div>
     <!--end::Row-->
     

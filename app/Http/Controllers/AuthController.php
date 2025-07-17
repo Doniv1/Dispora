@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Vector;
+
 use App\Models\UserVector;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -276,83 +277,136 @@ class AuthController extends Controller
     return now()->diffInYears(Carbon::parse($born_date));
   }
 
- public function knnPredictCategory($userInput, $k = 5)
+  public function knnPredictCategory($userInput, $k = 5)
   {
-    // Ambil semua data user lama yang memiliki kategori
     $allUsers = User::whereNotNull('id_category')->where('deleted', 'N')->get();
 
-    // Hitung nilai minimum dan maksimum dari setiap fitur numerik
-    $minMax = [
-        'umur' => ['min' => PHP_INT_MAX, 'max' => PHP_INT_MIN],
-        'vector' => ['min' => PHP_INT_MAX, 'max' => PHP_INT_MIN],
-        'riwayat' => ['min' => PHP_INT_MAX, 'max' => PHP_INT_MIN],
-    ];
-
-    foreach ($allUsers as $user) {
-        $umur = $this->getAge($user->born_date);
-        $vector = (int) $user->id_vector ?? 0;
-        $riwayat = (int) $user->id_riwayat_pelatihan ?? 0;
-
-        $minMax['umur']['min'] = min($minMax['umur']['min'], $umur);
-        $minMax['umur']['max'] = max($minMax['umur']['max'], $umur);
-        $minMax['vector']['min'] = min($minMax['vector']['min'], $vector);
-        $minMax['vector']['max'] = max($minMax['vector']['max'], $vector);
-        $minMax['riwayat']['min'] = min($minMax['riwayat']['min'], $riwayat);
-        $minMax['riwayat']['max'] = max($minMax['riwayat']['max'], $riwayat);
+    if ($allUsers->count() == 0) {
+        return null;
     }
 
-    // Fungsi bantu untuk normalisasi
-    $normalize = function ($value, $min, $max) {
+    // Map pendidikan
+    $eduMap = ['SMA' => 0, 'SMK' => 1, 'Mahasiswa' => 2];
+
+    // Konversi input baru
+    $umurBaru = $this->getAge($userInput['born_date']);
+    $genderBaru = $userInput['gender'] === 'Laki-laki' ? 1 : 0;
+    $eduBaru = $eduMap[$userInput['education_status']] ?? 0;
+    $vectorBaru = (int) $userInput['id_vector'];
+    $riwayatBaru = isset($userInput['id_riwayat_pelatihan']) ? (int) $userInput['id_riwayat_pelatihan'] : 0;
+
+    // Kumpulkan semua nilai dari dataset untuk normalisasi
+    $umurList = [];
+    $genderList = [];
+    $eduList = [];
+    $vectorList = [];
+    $riwayatList = [];
+
+    foreach ($allUsers as $user) {
+        $umurList[] = $this->getAge($user->born_date);
+        $genderList[] = $user->gender === 'Laki-laki' ? 1 : 0;
+        $eduList[] = $eduMap[$user->education_status] ?? 0;
+        $vectorList[] = (int) $user->id_vector ?? 0;
+        $riwayatList[] = (int) $user->id_riwayat_pelatihan ?? 0;
+    }
+
+    // Fungsi normalisasi Min-Max
+    $minMaxNorm = function ($value, $min, $max) {
         return ($max - $min) == 0 ? 0 : ($value - $min) / ($max - $min);
     };
 
-    // Normalisasi data input baru
-    $umurBaru = $this->getAge($userInput['born_date']);
-    $umurBaru = $normalize($umurBaru, $minMax['umur']['min'], $minMax['umur']['max']);
+    // Normalisasi input baru
+    $umurNormBaru = $minMaxNorm($umurBaru, min($umurList), max($umurList));
+    $genderNormBaru = $minMaxNorm($genderBaru, min($genderList), max($genderList));
+    $eduNormBaru = $minMaxNorm($eduBaru, min($eduList), max($eduList));
+    $vectorNormBaru = $minMaxNorm($vectorBaru, min($vectorList), max($vectorList));
+    $riwayatNormBaru = $minMaxNorm($riwayatBaru, min($riwayatList), max($riwayatList));
 
-    $genderBaru = $userInput['gender'] === 'Laki-laki' ? 1 : 0;
-
-    $eduMap = ['SMA' => 0, 'SMK' => 1, 'Mahasiswa' => 2];
-    $eduBaru = $eduMap[$userInput['education_status']] ?? 0;
-
-    $vectorBaru = $normalize((int) $userInput['id_vector'], $minMax['vector']['min'], $minMax['vector']['max']);
-
-    $riwayatBaru = isset($userInput['id_riwayat_pelatihan']) 
-        ? $normalize((int) $userInput['id_riwayat_pelatihan'], $minMax['riwayat']['min'], $minMax['riwayat']['max']) 
-        : 0;
-
-    // Proses perhitungan jarak
+    // Hitung jarak setiap data dalam dataset
     $distances = [];
 
-    foreach ($allUsers as $oldUser) {
-        $umurLama = $normalize($this->getAge($oldUser->born_date), $minMax['umur']['min'], $minMax['umur']['max']);
-        $genderLama = $oldUser->gender === 'Laki-laki' ? 1 : 0;
-        $eduLama = $eduMap[$oldUser->education_status] ?? 0;
-        $vectorLama = $normalize((int) $oldUser->id_vector ?? 0, $minMax['vector']['min'], $minMax['vector']['max']);
-        $riwayatLama = $normalize((int) $oldUser->id_riwayat_pelatihan ?? 0, $minMax['riwayat']['min'], $minMax['riwayat']['max']);
+    foreach ($allUsers as $index => $user) {
+        $umurLama = $minMaxNorm($umurList[$index], min($umurList), max($umurList));
+        $genderLama = $minMaxNorm($genderList[$index], min($genderList), max($genderList));
+        $eduLama = $minMaxNorm($eduList[$index], min($eduList), max($eduList));
+        $vectorLama = $minMaxNorm($vectorList[$index], min($vectorList), max($vectorList));
+        $riwayatLama = $minMaxNorm($riwayatList[$index], min($riwayatList), max($riwayatList));
 
         $dist = sqrt(
-            pow($umurBaru - $umurLama, 2) +
-            pow($genderBaru - $genderLama, 2) +
-            pow($eduBaru - $eduLama, 2) +
-            pow($vectorBaru - $vectorLama, 2) +
-            pow($riwayatBaru - $riwayatLama, 2)
+            pow($umurNormBaru - $umurLama, 2) +
+            pow($genderNormBaru - $genderLama, 2) +
+            pow($eduNormBaru - $eduLama, 2) +
+            pow($vectorNormBaru - $vectorLama, 2) +
+            pow($riwayatNormBaru - $riwayatLama, 2)
         );
 
-        $distances[] = ['distance' => $dist, 'category' => $oldUser->id_category];
+        $distances[] = ['distance' => $dist, 'category' => $user->id_category];
     }
 
-    // Urutkan dari jarak terpendek
+    // Urutkan berdasarkan jarak terpendek
     usort($distances, fn($a, $b) => $a['distance'] <=> $b['distance']);
 
     // Ambil k tetangga terdekat
     $topK = array_slice($distances, 0, $k);
 
-    // Hitung voting mayoritas
+    // Hitung jumlah kategori
     $counts = array_count_values(array_column($topK, 'category'));
 
-    // Kembalikan kategori dengan jumlah terbanyak
+    // Kembalikan kategori terbanyak
     arsort($counts);
     return array_key_first($counts);
   }
+
+public function sendOtp(Request $request)
+{
+    $request->validate(['email' => 'required|email']);
+
+    $user = User::where('email', $request->email)->first();
+    if (!$user) {
+        return response()->json(['success' => false, 'message' => 'Email tidak ditemukan']);
+    }
+
+    $otp = rand(100000, 999999);
+    Session::put('otp_' . $request->email, $otp);
+
+    // Kirim email
+    Mail::raw("Kode OTP Anda adalah: $otp", function ($message) use ($request) {
+        $message->to($request->email)->subject('Kode OTP - Reset Password');
+    });
+
+    return response()->json(['success' => true, 'message' => 'OTP berhasil dikirim']);
+}
+
+public function verifyOtp(Request $request)
+{
+    $request->validate(['email' => 'required|email', 'otp' => 'required']);
+
+    $otp = Session::get('otp_' . $request->email);
+    if ($otp == $request->otp) {
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['success' => false, 'message' => 'OTP salah atau kadaluarsa']);
+}
+
+public function changePassword(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6'
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+    if (!$user) {
+        return response()->json(['success' => false, 'message' => 'User tidak ditemukan']);
+    }
+
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    Session::forget('otp_' . $request->email);
+
+    return response()->json(['success' => true, 'message' => 'Password berhasil diubah']);
+}
+
 }

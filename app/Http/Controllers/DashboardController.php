@@ -39,6 +39,7 @@ class DashboardController extends Controller
             ->get();
 
         $cnt_training = $training->count();
+        
 
         // Hitung admin dan user dari data user aktif dan tidak dihapus
         $cnt_admin = User::where('status', 'Y')
@@ -50,6 +51,7 @@ class DashboardController extends Controller
             ->where('deleted', 'N')
             ->where('role', '!=', 1)
             ->count();
+        $cnt_contact = Contact::count(); // ✅ Tambahan ini
 
         // Siapkan data grafik: jumlah pendaftar per training
         $grafik = [];
@@ -68,6 +70,7 @@ class DashboardController extends Controller
         $data['cnt_training'] = $cnt_training;
         $data['cnt_admin'] = $cnt_admin;
         $data['cnt_user'] = $cnt_user;
+        $data['cnt_contact'] = $cnt_contact;
 
         // Approval List
         $cnt_pending_approval = RegisTraining::where('approved', 'P')->count();

@@ -447,7 +447,7 @@ function proses_form(element, id_form, num, urlplus = '', draging = false,loader
 
 function hapus_data(element, e, id, db = 'users', primary = '') {
     e.preventDefault();
-    var message = 'Are you sure you want to delete this data? Deleted data cannot be recovered.';
+    var message = "Apakah Anda yakin ingin menghapus data ini?";
     var reload = '';
     if ($(element).data('reload')) {
         reload = $(element).data('reload');
@@ -602,7 +602,7 @@ function hapus_data_noreload(element, id, url = '',parent_remove = '',pengganti 
     if (text) {
         var message = text;
     }else{
-        var message = 'Are you sure you want to delete this data? Deleted data cannot be recovered.';
+        var message = "Apakah Anda yakin ingin menghapus data ini?";
     }
     
     const icon = 'question';
@@ -750,11 +750,10 @@ function switching(element, e, id) {
     if ($(element).is(':checked')) {
         var value = 'Y';
         var type = false;
-        var message = ucfirst('Are you sure you want to open access to this data? Then the data will be accessible to the system.');
+        var message = ucfirst("Apakah Anda yakin ingin mengaktifkan data ini?");
     } else {
         var value = 'N';
-         var type = "textarea";
-        var message = ucfirst('Are you sure you want to close access to this data? the data will not be able to access the system');
+        var message = ucfirst("Apakah Anda yakin ingin menonaktifkan data ini?");
     }
     Swal.fire({
         text: message,

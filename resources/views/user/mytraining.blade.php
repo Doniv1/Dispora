@@ -8,16 +8,7 @@
             <div class="text-yellow-800 text-sm font-medium p-4">
                     ⚠️ Jika Anda <strong>DITERIMA</strong> maka history pelatihan akan tetap ada.<br>
                     Jika <strong>TIDAK DITERIMA</strong>, maka history pelatihan akan langsung <strong>terhapus otomatis</strong>.
-                </div>
-                
-            {{-- ✅ NOTIFIKASI DITERIMA --}}
-            @if(isset($notifikasi) && count($notifikasi) > 0)
-            <div class="alert alert-success">
-            @foreach($notifikasi as $n)
-            🎉 Anda telah <strong>DITERIMA</strong> dalam pelatihan <strong>{{ $n->training->title }}</strong>!<br>
-            @endforeach
-            </div>
-            @endif
+                </div>   
 
             @if(isset($result) && $result->isNotEmpty())
                 @foreach($result as $row)
@@ -43,7 +34,7 @@
 
 <span class="m-auto badge {{ $statusClass }}">{{ $statusLabel }}</span>
 
-                                <div class="meta mb-2 text-dark">{{ $row->training->category->name ?? '-' }}</div>
+                                <div class="meta mb-2">{{ $row->training->category->name ?? '-' }}</div>
                             </div>
                         </a>
                     </div>

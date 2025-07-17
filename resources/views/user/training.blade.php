@@ -22,6 +22,8 @@
                                      style="height: 150px; background-image: url({{ image_check($row['training']->image,'training') }}); background-size: cover;">
                                 </div>
                                 <h4 class="mb-1">{{ short_text($row['training']->title, 50) }}</h4>
+                                <p class="h10 mt-1 mb-3">
+                                {{ short_text($row['training']->sort_description, 200) }}</p>
                                 <div class="meta mb-2">{{ $row['training']->category->name ?? '-' }}</div>
                             </div>
                         </a>
@@ -47,6 +49,8 @@
                                      style="height: 150px; background-image: url({{ image_check($row->image,'training') }})">
                                 </div>
                                 <h4 class="mb-1">{{ short_text($row->title, 50) }}</h4>
+                                <p class="h10 mt-1 mb-3">
+                                {{ short_text($row->sort_description, 200) }}</p>
                                 <div class="meta mb-2">{{ $row->category->name ?? '-' }}</div>
                             </div>
                         </a>

@@ -91,7 +91,7 @@
                             <label class="required fw-semibold fs-6 mb-2">Minat</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Enter Vector" autocomplete="off" />
+                            <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Masukan Minat" autocomplete="off" />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->

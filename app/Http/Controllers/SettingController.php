@@ -144,7 +144,7 @@ class SettingController extends Controller
                 if ($updated) {
                     return response()->json([
                         'status' => true,
-                        'alert' => ['message' => 'Data berhasil dirubah'],
+                        'alert' => ['message' => 'Data Berhasil Diperbarui '],
                         'reload' => true
                     ]);
                 } else {
@@ -261,7 +261,7 @@ class SettingController extends Controller
 
                 return response()->json([
                     'status' => true,
-                    'alert' => ['message' => 'Data berhasil dirubah'],
+                    'alert' => ['message' => 'Data Berhasil Diperbarui'],
                     'reload' => true
                 ]);
             } else {
@@ -327,7 +327,7 @@ class SettingController extends Controller
 
         return response()->json([
             'status' => true,
-            'alert' => ['message' => 'Data berhasil dirubah'],
+            'alert' => ['message' => 'Data Berhasil Diperbarui'],
             'reload' => true,
         ]);
     }
@@ -440,7 +440,7 @@ class SettingController extends Controller
                 }
 
                 $data['status'] = true;
-                $data['alert']['message'] = 'Data berhasil dirubah!';
+                $data['alert']['message'] = 'Data Berhasil Diperbarui';
                 $data['reload'] = true;
             } else {
                 $data['status'] = false;
@@ -455,40 +455,64 @@ class SettingController extends Controller
     }
 
     // // FORM
-   public function insert_form(Request $request)
-{
+    public function insert_form(Request $request)
+    {
     $field = $request->input('field');
     $type = $request->input('type');
 
+    // Validasi wajib isi
     if (!$field || !$type) {
         return response()->json([
             'status' => false,
-            'alert' => 'Field dan Type wajib diisi!',
+            'alert' => [
+                'message' => 'Field dan Type wajib diisi!'
+            ],
+            'input' => [
+                'text' => true
+            ]
         ]);
     }
 
-    // Hitung urutan paling besar
-    $urutan = Form::where('deleted', 'N')->max('urutan') ?? 0;
+    // (Opsional) Cek duplikasi nama field
+    if (Form::where('field', $field)->where('deleted', 'N')->exists()) {
+        return response()->json([
+            'status' => false,
+            'alert' => [
+                'message' => 'Field dengan nama ini sudah ada!'
+            ]
+        ]);
+    }
 
-    // Tambahkan data baru di paling bawah
-    $form = new Form();
-    $form->field = $field;
-    $form->type = $type;
-    $form->urutan = $urutan + 1; // Otomatis nomor berikutnya
-    $form->deleted = 'N';
-    $form->save();
+    try {
+        // Hitung urutan terakhir
+        $urutan = Form::where('deleted', 'N')->max('urutan') ?? 0;
 
-    return response()->json([
-        'status' => true,
-        'alert' => 'Formulir berhasil ditambahkan',
-        'datatable' => 'table_form',
-        'modal' => '#kt_modal_form',
-        'input' => '#form_form'
-    ]);
-}
+        // Simpan data
+        $form = new Form();
+        $form->field = $field;
+        $form->type = $type;
+        $form->urutan = $urutan + 1;
+        $form->deleted = 'N';
+        $form->save();
 
-
-
+        return response()->json([
+            'status' => true,
+            'alert' => [
+                'message' => 'Formulir berhasil ditambahkan!'
+            ],
+            'datatable' => 'table_form',
+            'modal' => ['id' => '#kt_modal_form', 'action' => 'hide'],
+            'input' => ['all' => true]
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'alert' => [
+                'message' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()
+            ]
+        ]);
+    }
+    }
 
 
     public function update_form(Request $request)
@@ -532,7 +556,7 @@ class SettingController extends Controller
         if ($update) {
             return response()->json([
                 'status' => true,
-                'alert' => ['message' => 'updated successfully!'],
+                'alert' => ['message' => 'Data Berhasil Diperbarui'],
                 'datatable' => 'table_form',
                 'modal' => ['id' => '#kt_modal_form', 'action' => 'hide'],
                 'input' => ['all' => true]
@@ -631,7 +655,7 @@ class SettingController extends Controller
         ]);
 
         if ($update) {
-            $message = $action == 'Y' ? 'Access successfully unlocked!' : 'Access successfully blocked!';
+            $message = $action == 'Y' ? 'Data Berhasil Diaktifkan' : 'Data Berhasil Dinonaktifkan';
             if ($action == 'N' && $reason != '') {
                 $message .= '</br><b>Reason: </b>"' . $reason . '"';
             }
@@ -711,7 +735,7 @@ class SettingController extends Controller
             return response()->json([
                 'status' => 200,
                 'alert' => [
-                    'message' => 'Data successfully deleted!'
+                    'message' => 'Data Berhasil DiHapus'
                 ]
             ]);
         } else {

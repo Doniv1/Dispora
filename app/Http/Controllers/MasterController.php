@@ -208,6 +208,13 @@ class MasterController extends Controller
 
   public function update_admin(Request $request)
   {
+    if ($id == 1) {
+    return response()->json([
+        'status' => false,
+        'alert' => ['message' => 'Admin utama tidak boleh diubah!']
+    ]);
+    }
+
     $id = $request->id_user;
     $user = User::where('id_user', $id)->where('deleted', 'N')->first();
 

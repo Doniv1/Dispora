@@ -219,7 +219,8 @@ class TableManagement extends Controller
       'users.email',
       'users.status',
       'users.image'
-    )->where('users.id_user', '!=', $id_user)
+    ) ->where('users.id_user', '!=', $id_user)
+      ->where('users.id_user', '!=', 1)        // tidak tampilkan admin utama
       ->where('users.role', 1);
     // Search
     if (!empty($search)) {

@@ -176,7 +176,7 @@
                             <!--end::Input group-->
 
                             <div class="mb-3" id="req_gender">
-                                <label for="register-gender" class="form-label">Jenis Kelamin</label>
+                                <label for="register-gender" class="required fw-semibold fs-6 form-label">Jenis Kelamin</label>
                                 <select name="gender" id="gender" class="form-control form-control-solid mb-3 mb-lg-0">
                                     <option value="">-- Pilih salah satu --</option>
                                     <option value="Laki-laki">Laki-laki</option>
@@ -185,13 +185,13 @@
                             </div>
 
                             <div class="mb-3" id="req_born_date">
-                                <label for="born_date" class="form-label">Tanggal Lahir</label>
+                                <label for="born_date" class="required fw-semibold fs-6 form-label">Tanggal Lahir</label>
                                 <input type="date" name="born_date" class="form-control form-control-solid mb-3 mb-lg-0" id="register-born_date"
                                     placeholder="Masukkan tanggal lahir anda" autocomplete="off">
                             </div>
 
                             <div class="mb-3" id="req_education_status">
-                                <label for="register-education_status" class="form-label">Status Pendidikan</label>
+                                <label for="register-education_status" class="required fw-semibold fs-6 form-label">Status Pendidikan</label>
                                 <select name="education_status" id="education_status" class="form-control form-control-solid mb-3 mb-lg-0">
                                     <option value="">-- Pilih salah satu --</option>
                                     <option value="SMA">SMA</option>
@@ -202,7 +202,7 @@
 
                             @if ($vector && $vector->isNotEmpty())
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">Minat</label>
+                                    <label class="form-label required fw-semibold fs-6">Minat</label>
                                     <div class="">
                                         <select name="id_vector" id="vector" class="form-control form-control-solid mb-3 mb-lg-0">
                                             <option value="">-- Pilih salah satu --</option>
@@ -218,7 +218,7 @@
                             {{-- Pertanyaan 2: Riwayat Program Pelatihan --}}
                             @if ($training && $training->isNotEmpty())
                                 <div class="mb-3">
-                                    <label class="form-label fw-bold">Riwayat program pelatihan yang pernah diikuti</label>
+                                    <label class="form-label required fw-semibold fs-6">Riwayat program pelatihan yang pernah diikuti</label>
                                     <div class="">
                                         <select name="id_riwayat_pelatihan" id="riwayat_pelatihan" class="form-control form-control-solid mb-3 mb-lg-0">
                                             <option value="">-- Pilih salah satu --</option>

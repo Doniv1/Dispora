@@ -18,7 +18,7 @@
                 <!--begin:::Tab item-->
                 <li class="nav-item">
                     <a onclick="set_url_params('umum')" class="nav-link text-active-primary d-flex align-items-center pb-5 @if(!$page || $page == 'umum') active @endif" data-bs-toggle="tab" href="#general_pane">
-                        <i class="ki-duotone ki-home fs-2 me-2"></i>Umum
+                        <i class="ki-duotone ki-home fs-2 me-2"></i>Logo
                     </a>
                 </li>
                 <!--end:::Tab item-->
@@ -26,7 +26,7 @@
                 <!--begin:::Tab item-->
                 <li class="nav-item">
                     <a onclick="set_url_params('seo')" class="nav-link text-active-primary d-flex align-items-center pb-5 @if($page == 'seo') active @endif" data-bs-toggle="tab" href="#seo_pane">
-                        <i class="fa-brands fa-searchengin fs-2 me-2"></i>SEO
+                        <i class="fa-brands fa-searchengin fs-2 me-2"></i>Profil Website
                     </a>
                 </li>
                 <!--end:::Tab item-->

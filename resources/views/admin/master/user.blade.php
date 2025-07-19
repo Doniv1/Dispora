@@ -54,16 +54,16 @@
                     data-url="{{ route('table.user') }}">
                     <thead>
                         <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                            <th>No</th>
-                            <th>User</th>
-                            <th>Kontak</th>
-                            <th>Gender</th>
-                            <th>Tgl Lahir</th>
-                            <th>Pendidikan</th>
-                            <th>Minat</th>
-                            <th>Riwayat</th>
-                            <th>Kategori</th>
-                            <th class="text-center">Status</th>
+                            <th class=>No</th>
+                            <th class=>User</th>
+                            <th class=>Kontak</th>
+                            <th style="width:80px">Gender</th>
+                            <th style="width:120px" >Tgl Lahir</th>
+                            <th class="text-center">Pendidikan</th>
+                            <th class="text-center">Minat</th>
+                            <th class="text-center">Riwayat</th>
+                            <th class="text-center">Kategori</th>
+                            <!-- <th class="text-center">Status</th> -->
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>

@@ -146,14 +146,14 @@ class TableManagement extends Controller
         . '</span>';
 
       // 10) Status switch
-      $checked = $item->status === 'Y' ? 'checked' : '';
-      $status = '<div class="form-check form-switch">'
-        . '<input onchange="switching(this,event,' . $item->id_user . ')" '
-        . 'data-primary="id_user" '
-        . 'data-url="' . url('switch/users') . '" '
-        . 'class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" '
-        . 'id="switch-' . $item->id_user . '" ' . $checked . '>'
-        . '</div>';
+      // $checked = $item->status === 'Y' ? 'checked' : '';
+      // $status = '<div class="form-check form-switch">'
+      //   . '<input onchange="switching(this,event,' . $item->id_user . ')" '
+      //   . 'data-primary="id_user" '
+      //   . 'data-url="' . url('switch/users') . '" '
+      //   . 'class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" '
+      //   . 'id="switch-' . $item->id_user . '" ' . $checked . '>'
+      //   . '</div>';
 
 
       // 11) Actions
@@ -178,7 +178,7 @@ class TableManagement extends Controller
         $minat,
         $riwayat,
         $kategori,
-        $status,
+        // $status,
         $action,
       ];
     }
@@ -263,14 +263,14 @@ class TableManagement extends Controller
       $user .= '</div></div>';
 
       // STATUS
-      $checked = '';
-      if ($item->status == 'Y') {
-        $checked = 'checked';
-      }
-      $status = '';
-      $status .= '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_user . ')" data-primary="id_user"  data-url="' . url('switch/users') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_user . '" ' . $checked . '></div>';
-      $status .= '</div>';
+      // $checked = '';
+      // if ($item->status == 'Y') {
+      //   $checked = 'checked';
+      // }
+      // $status = '';
+      // $status .= '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_user . ')" data-primary="id_user"  data-url="' . url('switch/users') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_user . '" ' . $checked . '></div>';
+      // $status .= '</div>';
 
       $kontak = '';
       if ($item->email || $item->phone) {
@@ -302,7 +302,7 @@ class TableManagement extends Controller
       $result[] = [
         $user,
         $kontak,
-        $status,
+        // $status,
         $action
       ];
     }
@@ -539,14 +539,14 @@ class TableManagement extends Controller
     $result = [];
     foreach ($data as $item) {
       // STATUS
-      $checked = '';
-      if ($item->status == 'Y') {
-        $checked = 'checked';
-      }
-      $status = '';
-      $status .= '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_category . ')" data-primary="id_category"  data-url="' . url('switch/categories') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_category . '" ' . $checked . '></div>';
-      $status .= '</div>';
+      // $checked = '';
+      // if ($item->status == 'Y') {
+      //   $checked = 'checked';
+      // }
+      // $status = '';
+      // $status .= '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_category . ')" data-primary="id_category"  data-url="' . url('switch/categories') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_category . '" ' . $checked . '></div>';
+      // $status .= '</div>';
 
 
       // ACTION
@@ -563,7 +563,7 @@ class TableManagement extends Controller
 
       $result[] = [
         $item->name,
-        $status,
+        // $status,
         $action
       ];
     }
@@ -628,14 +628,14 @@ class TableManagement extends Controller
     $result = [];
     foreach ($data as $item) {
       // STATUS
-      $checked = '';
-      if ($item->status == 'Y') {
-        $checked = 'checked';
-      }
-      $status = '';
-      $status .= '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_vector . ')" data-primary="id_vector"  data-url="' . url('switch/vectors') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_vector . '" ' . $checked . '></div>';
-      $status .= '</div>';
+      // $checked = '';
+      // if ($item->status == 'Y') {
+      //   $checked = 'checked';
+      // }
+      // $status = '';
+      // $status .= '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch"><input onchange="switching(this,event,' . $item->id_vector . ')" data-primary="id_vector"  data-url="' . url('switch/vectors') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_vector . '" ' . $checked . '></div>';
+      // $status .= '</div>';
 
 
       // ACTION
@@ -652,7 +652,7 @@ class TableManagement extends Controller
 
       $result[] = [
         $item->name,
-        $status,
+        // $status,
         $action
       ];
     }
@@ -740,11 +740,11 @@ class TableManagement extends Controller
       // }
 
       // STATUS
-      $checked = $item->status === 'Y' ? 'checked' : '';
-      $status = '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch">';
-      $status .= '<input onchange="switching(this,event,' . $item->id_training . ')" data-primary="id_training" data-url="' . url('switch/trainings') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_training . '" ' . $checked . '>';
-      $status .= '</div></div>';
+      // $checked = $item->status === 'Y' ? 'checked' : '';
+      // $status = '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch">';
+      // $status .= '<input onchange="switching(this,event,' . $item->id_training . ')" data-primary="id_training" data-url="' . url('switch/trainings') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_training . '" ' . $checked . '>';
+      // $status .= '</div></div>';
 
       // ACTION
       $action = '<div class="d-flex justify-content-end flex-shrink-0">
@@ -762,7 +762,7 @@ class TableManagement extends Controller
         '<span class="badge badge-primary">' . $item->category->name . '</span>',
         '<span class="badge badge-info cursor-pointer" data-title="' . $item->title . '" onclick="detail_register(this,' . $item->id_training . ')" data-bs-toggle="modal" data-bs-target="#kt_modal_register">' . $item->registrations_count . ' Peserta' ?? '0 Member' . '</span>',
 
-        $status,
+        // $status,
         $action
       ];
     }
@@ -829,11 +829,11 @@ class TableManagement extends Controller
       $image .= '</div>';
 
       // STATUS
-      $checked = $item->status === 'Y' ? 'checked' : '';
-      $status = '<div class="d-flex justify-content-center align-items-center">';
-      $status .= '<div class="form-check form-switch">';
-      $status .= '<input onchange="switching(this,event,' . $item->id_banner . ')" data-primary="id_banner" data-url="' . url('switch/banners') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_banner . '" ' . $checked . '>';
-      $status .= '</div></div>';
+      // $checked = $item->status === 'Y' ? 'checked' : '';
+      // $status = '<div class="d-flex justify-content-center align-items-center">';
+      // $status .= '<div class="form-check form-switch">';
+      // $status .= '<input onchange="switching(this,event,' . $item->id_banner . ')" data-primary="id_banner" data-url="' . url('switch/banners') . '" class="form-check-input cursor-pointer focus-info" type="checkbox" role="switch" id="switch-' . $item->id_banner . '" ' . $checked . '>';
+      // $status .= '</div></div>';
 
       // ACTION
       $action = '<div class="d-flex justify-content-end flex-shrink-0">
@@ -849,7 +849,7 @@ class TableManagement extends Controller
         $image,
         $item->title,
         $item->description,
-        $status,
+        // $status,
         $action
       ];
     }

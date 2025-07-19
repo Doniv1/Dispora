@@ -72,7 +72,7 @@
                             <th class="min-w-200px">Judul</th>
                             <th class="min-w-100px">Kategori</th>
                             <th class="min-w-100px">Jumlah Pendaftar</th>
-                            <th class="text-center min-w-100px" data-searchable="false">Status</th>
+                            <!-- <th class="text-center min-w-100px" data-searchable="false">Status</th> -->
                             <th class="text-end min-w-70px" data-orderable="false" data-searchable="false">Actions</th>
                         </tr>
                     </thead>

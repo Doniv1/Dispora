@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
     });
 
+
     // Trigger reload on each filter
     document.querySelectorAll(".table-filter").forEach((el) => {
         el.addEventListener("change", function () {

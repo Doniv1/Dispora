@@ -9,7 +9,7 @@
         <!--end::Avatar-->
         <!--begin::Details-->
         <div class="ms-5">
-            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">{{ $row->user->name }}</a>
+            <a class="fs-5 fw-bold text-gray-900  mb-2">{{ $row->user->name }}</a>
             <div class="fw-semibold text-muted">{{ $row->user->email }}</div>
         </div>
         <!--end::Details-->
@@ -18,9 +18,9 @@
     <!--begin::Access menu-->
     
     <div class="ms-2 w-100px">
-        <button class="btn btn-icon btn-sm btn-info me-1 btn-detail" id="btn-detail-{{ $row->id_regis_training }}" type="button" onclick="detail_form(this,{{ $row->id_regis_training }})">
+        <!-- <button class="btn btn-icon btn-sm btn-info me-1 btn-detail" id="btn-detail-{{ $row->id_regis_training }}" type="button" onclick="detail_form(this,{{ $row->id_regis_training }})">
             <i class="fa-solid fa-circle-info fs-3"></i>
-        </button>
+        </button> -->
         <button onclick="hapus_register({{ $row->id_regis_training }})" class="btn btn-icon btn-sm btn-danger" stype="button">
             <i class="fa-solid fa-trash fs-3"></i>
         </button>

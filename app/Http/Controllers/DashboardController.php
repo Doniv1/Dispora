@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 use App\Models\User;
 use App\Models\Contact;
 use App\Models\Training;
 use App\Models\RegisTraining;
+use App\Mail\NotifikasiPelatihan;
 
 class DashboardController extends Controller
 {
@@ -39,7 +41,6 @@ class DashboardController extends Controller
             ->get();
 
         $cnt_training = $training->count();
-        
 
         // Hitung admin dan user dari data user aktif dan tidak dihapus
         $cnt_admin = User::where('status', 'Y')
@@ -104,24 +105,43 @@ class DashboardController extends Controller
 
 
     public function set_approval(Request $request)
-    {
+{
     $id = $request->input('id');
     $status = $request->input('status');
 
-    $data = RegisTraining::find($id);
+    $data = RegisTraining::with('training', 'user')->find($id);
+
     if ($data) {
+        $user = $data->user;
+        $training = $data->training;
+
         if ($status == 'Y') {
             $data->approved = 'Y';
             $data->is_notified = 'N'; // agar user nanti melihat notifikasi
-        } elseif ($status == 'T') {
-            $data->delete(); // langsung hapus jika ditolak
-            return response()->json(['status' => true, 'message' => 'Data telah ditolak dan dihapus!']);
-        }
-        $data->save();
+            $data->save();
 
-        return response()->json(['status' => true, 'message' => 'Status berhasil diperbarui!']);
+            // Kirim email diterima
+            Mail::to($user->email)->queue(new NotifikasiPelatihan(
+                $user->name,
+                $training->title,
+                'Y'
+            ));
+
+            return response()->json(['status' => true, 'message' => 'Peserta Diterima & Email Sedang Dikirim']);
+
+        } elseif ($status == 'N') {
+            // Kirim email ditolak
+            Mail::to($user->email)->queue(new NotifikasiPelatihan(
+                $user->name,
+                $training->title,
+                'N'
+            ));
+
+            $data->delete(); // langsung hapus jika ditolak
+            return response()->json(['status' => true, 'message' => 'Peserta Ditolak & Email Sedang Dikirim']);
+        }
     }
 
     return response()->json(['status' => false, 'message' => 'Data tidak ditemukan.']);
-    }
+}
 }

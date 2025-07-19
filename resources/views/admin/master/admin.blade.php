@@ -53,7 +53,7 @@
                         <th class="min-w-10px pe-2" data-orderable="false" data-searchable="false">No</th>
                         <th class="min-w-200px">Admin</th>
                         <th class="min-w-200px">Kontak</th>
-                        <th class="text-center min-w-100px" data-searchable="false">Status</th>
+                        <!-- <th class="text-center min-w-100px" data-searchable="false">Status</th> -->
                         <th class="text-end min-w-70px" data-orderable="false" data-searchable="false">Actions</th>
                     </tr>
                 </thead>

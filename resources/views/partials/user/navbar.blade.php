@@ -90,7 +90,7 @@
                     </li>
                     @else
                     <li class="nav-item d-none d-md-block">
-                        <a type="button" href="{{ route('logout') }}" onclick="confirm_alert(this, event, 'Are you sure you want to leave the system?')" class="btn btn-sm btn-danger rounded-pill">Log Out</a>
+                        <a type="button" href="{{ route('logout') }}" onclick="confirm_alert(this, event, 'Anda Yakin Ingin Keluar?')" class="btn btn-sm btn-danger rounded-pill">Log Out</a>
                     </li>
                     @endif
                     

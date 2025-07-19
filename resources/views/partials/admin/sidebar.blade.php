@@ -115,7 +115,7 @@
                                 <span class="menu-icon">
                                     <i class="fa-solid fa-tags fs-4"></i>
                                 </span>
-                                <span class="menu-title">Kategori Pelatihan</span>
+                                <span class="menu-title">Kategori</span>
                             </a>
                             <!--end:Menu link-->
                         </div>
@@ -193,7 +193,7 @@
     <div class="aside-footer flex-column-auto pb-5 pb-lg-10" id="kt_aside_footer">
         <!--begin::Menu-->
         <div class="d-flex flex-center w-100 scroll-px" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-dismiss="click" title="Log Out">
-            <a type="button" class="btn btn-custom" href="{{ route('logout') }}" onclick="confirm_alert(this, event, 'Are you sure you want to leave the system?')">
+            <a type="button" class="btn btn-custom" href="{{ route('logout') }}" onclick="confirm_alert(this, event, 'Anda Yakin Ingin Keluar?')">
                 <i class="ki-duotone ki-entrance-left fs-2x">
                     <span class="path1"></span>
                     <span class="path2"></span>

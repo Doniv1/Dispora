@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\User;
 use App\Models\Form;
 use App\Models\Contact;
@@ -370,7 +370,8 @@ class UserController extends Controller
 
       return response()->json([
         'status' => true,
-        'alert' => ['message' => 'Berhasil mendaftar pelatihan!'],
+        'alert' => ['message' => 'Berhasil Mendaftar Pelatihan<br>Tunggu Konfirmasi Melalui Email',], 
+
         'reload' => true
       ]);
     }
@@ -380,4 +381,25 @@ class UserController extends Controller
       'alert' => ['message' => 'Gagal mendaftar pelatihan!'],
     ]);
   }
+
+  public function cetakDiterima($id)
+{
+    $prefix = config('session.prefix');
+    $id_user = session($prefix . '_id_user');
+
+    // Ambil data berdasarkan id_regis_training, pastikan milik user login dan sudah diterima
+    $regis = RegisTraining::with('training')
+        ->where('id_regis_training', $id)
+        ->where('id_user', $id_user)
+        ->where('approved', 'Y')
+        ->first();
+
+    if (!$regis) {
+        abort(403, 'Data tidak ditemukan atau akses tidak sah.');
+    }
+
+    $pdf = Pdf::loadView('pdf.hasil_diterima', compact('regis'));
+    return $pdf->stream('bukti_pendaftaran_diterima.pdf');
+}
+
 }

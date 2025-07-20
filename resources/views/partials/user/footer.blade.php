@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <button onclick="submit_form(this,'#formLogin')" id="button_login" type="button"
+                    <button onclick="submit_form(this,'#formLogin')" id="button_login" type="submit"
                         class="btn btn-primary w-100">Masuk</button>
 
                     <div class="text-center mt-3">

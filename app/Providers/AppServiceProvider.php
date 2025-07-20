@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
@@ -71,5 +72,8 @@ class AppServiceProvider extends ServiceProvider
             View::share('training', $training);
             $this->app->singleton('training', fn () => $training);
         }
+
+        Carbon::setLocale('id'); // agar translatedFormat pakai bahasa Indonesia
+        setlocale(LC_TIME, 'id_ID.utf8');
     }
 }

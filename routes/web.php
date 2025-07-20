@@ -156,6 +156,8 @@ Route::get('/report/export', function () {
   return Excel::download(new ReportExport, 'Data-pelaporan-karyawan.xlsx');
 })->name('report.export');
 
+Route::get('cetak/pendaftaran/{id}', [UserController::class, 'cetakDiterima'])->name('cetak.pendaftaran.diterima');
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

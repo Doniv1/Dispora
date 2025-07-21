@@ -7,7 +7,7 @@
 
 {{-- Rekomendasi Pelatihan --}}
         @if(isset($recommended) && count($recommended) > 0)
-            <h4 class="text-center text-primary fw-bold mb-4">Rekomendasi Pelatihan Untuk Anda</h4>
+            <h2 class="text-center text-primary fw-bold mb-4">Rekomendasi Pelatihan Untuk Anda</h2>
             <div class="row grid-view gx-md-8 gx-xl-10 gy-8 mb-10">
                 @foreach ($recommended as $row)
                     <div class="col-md-6 col-lg-4 mx-auto mb-3" id="recommended-training-{{ $row['training']->id_training }}">
@@ -33,7 +33,9 @@
         @endif
 
 
-
+        <h2 class="text-center text-primary fw-bold mb-4">
+            Daftar Pelatihan
+        </h2>
         <div class="row grid-view gx-md-8 gx-xl-10 gy-8 gy-lg-0">
             @if(isset($result) && $result->isNotEmpty())
                 @foreach($result as $row)

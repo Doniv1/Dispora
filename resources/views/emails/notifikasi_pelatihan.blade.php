@@ -8,7 +8,7 @@ Anda telah diterima pada program pelatihan berikut:
 
 **Judul Pelatihan: {{ $judul }}**
 
-@component('mail::button', ['url' => route('home') . '#home'])
+@component('mail::button', ['url' => 'https://dispora.viewapp.online/home'])
 Lihat Detail
 @endcomponent
 

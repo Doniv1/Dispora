@@ -95,7 +95,7 @@
                 <div class="w-100 d-flex justify-content-end align-items-center px-4">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-xmark"></i></button>
-                </div>
+            </div>
                 <form id="formLogin" method="POST" action="{{ route('auth.login') }}" class="pt-5">
                     <div class="mb-3 text-center">
                         <h2 class="form-label">Login</h2>
@@ -119,16 +119,16 @@
                             </span>
                         </div>
                     </div>
-
-                    <button onclick="submit_form(this,'#formLogin')" id="button_login" type="submit"
+                   <button onclick="submit_form(this,'#formLogin')" id="button_login" type="submit"
                         class="btn btn-primary w-100">Masuk</button>
 
                     <div class="text-center mt-3">
-                        <p>Belum memiliki akun? <a role="button" onclick="toAuth('#formRegister','#formLogin')"
-                                class="text-primary">Daftar sekarang</a></p>
+                        <p>Belum punya akun? 
+                        <a role="button" class="text-primary"
+                            onclick="toAuth('#formRegister', ['#formLogin', '#formForgot'])">Daftar Sekarang</a>
+                        </p>
                     </div>
                 </form>
-
 
                 <form id="formRegister" class="pt-5 d-none" method="POST" action="{{ route('auth.register') }}">
                     <div id="pane_register">
@@ -208,6 +208,12 @@
                             onclick="submit_form(this,'#formRegister', '', false, false,'',`{{ route('auth.register.first') }}`)"
                             class="btn btn-primary w-100 text-white rounded-3 shadow-sm hover-shadow">Selanjutnya</button>
 
+                            <div class="text-center mt-3">
+                                <p>Sudah punya akun? 
+                                <a role="button" class="text-primary"
+                                    onclick="toAuth('#formLogin', ['#formRegister', '#formForgot'])">Login di sini</a>
+                                </p>
+                            </div>
                     </div>
 
                     <div id="pane_vector" class="d-none">
@@ -260,23 +266,19 @@
                                     onclick="submit_form(this,'#formRegister')"
                                     class="btn btn-primary w-100 text-white rounded-3 shadow-sm hover-shadow">Daftar</button>
                             </div>
+                            <div class="text-center mt-3">
+                                <p>Sudah punya akun? 
+                                <a role="button" class="text-primary"
+                                    onclick="toAuth('#formLogin', ['#formRegister', '#formForgot'])">Login di sini</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
 
-
-
-            <div class="text-center mt-3">
-                <p>Sudah memiliki akun? <a role="button" class="text-primary"
-                        onclick="toAuth('#formLogin','#formRegister')">Login di sini</a></p>
-            </div>
-
-
-            </form>
         </div>
     </div>
-</div>
 </div>
 
 
@@ -378,4 +380,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

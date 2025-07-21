@@ -107,11 +107,9 @@
     <p style="margin-top: 20px; text-align:justify;">
         Surat ini dicetak secara otomatis oleh sistem sebagai bukti bahwa yang bersangkutan telah dinyatakan diterima sebagai peserta pelatihan yang diselenggarakan oleh Dinas Pemuda dan Olahraga Kota Palembang.
     </p>
-
     <div class="ttd">
         <p>Palembang, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
         <p style="margin-top: 60px;">Admin DISPORA</p>
     </div>
-
 </body>
 </html>

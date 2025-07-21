@@ -24,11 +24,10 @@
 
 <script>
 
-  function toAuth(to,from) {
-        $(to).removeClass('d-none');
-        $(from).addClass('d-none');
-  }
-
+   function toAuth(show, hide = []) {
+    document.querySelectorAll(hide.join(',')).forEach(el => el.classList.add('d-none'));
+    document.querySelector(show).classList.remove('d-none');
+   }
   document.addEventListener("DOMContentLoaded", function() {
       document.querySelectorAll(".toggle-password").forEach(function(toggle) {
           toggle.addEventListener("click", function() {

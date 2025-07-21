@@ -8,10 +8,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
+
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\UserVector;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Mail\SendOtpMail;
 
 class AuthController extends Controller
 {
@@ -141,6 +147,13 @@ class AuthController extends Controller
       ]);
     }
 
+    if (strlen($password) < 8) {
+    return response()->json([
+        'status' => 500,
+        'alert' => ['message' => 'Kata sandi minimal 8 karakter!'],
+    ]);
+    }
+
     if ($password !== $repassword) {
       return response()->json([
         'status' => 500,
@@ -222,6 +235,13 @@ class AuthController extends Controller
         'status' => 500,
         'alert' => ['message' => 'Email tidak valid! Silahkan cek dan coba lagi.'],
       ]);
+    }
+
+    if (strlen($password) < 8) {
+    return response()->json([
+        'status' => 500,
+        'alert' => ['message' => 'Kata sandi minimal 8 karakter!'],
+    ]);
     }
 
     if ($password !== $repassword) {

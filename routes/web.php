@@ -34,9 +34,6 @@ Route::middleware(UserRoleAccess::class)->group(function () {
   Route::post('/register/training', [UserController::class, 'register_training'])->name('register.training');
   Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
   Route::post('/get_detail_training', [UserController::class, 'get_detail_training'])->name('detail.training');
-  Route::post('/forgot-password/send-otp', [AuthController::class, 'sendOtp'])->name('forgot.send_otp');
-  Route::post('/forgot-password/verify-otp', [AuthController::class, 'verifyOtp'])->name('forgot.verify_otp');
-  Route::post('/forgot-password/change-password', [AuthController::class, 'changePassword'])->name('forgot.change_password');
 });
 
 // Halaman dashboard hanya bisa diakses kalau SUDAH login

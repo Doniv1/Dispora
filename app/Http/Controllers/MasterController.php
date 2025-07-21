@@ -410,6 +410,13 @@ class MasterController extends Controller
       ]);
     }
 
+    if (strlen($password) < 8) {
+    return response()->json([
+        'status' => 500,
+        'alert' => ['message' => 'Kata sandi minimal 8 karakter!'],
+    ]);
+    }
+
     if ($request->password !== $request->repassword) {
       return response()->json([
         'status' => false,

@@ -123,6 +123,9 @@
                         class="btn btn-primary w-100">Masuk</button>
 
                     <div class="text-center mt-3">
+                        <p><a role="button" class="text-primary"
+                            onclick="toAuth('#formForgot', ['#formLogin', '#formRegister'])">Lupa Kata Sandi?</a>
+                        </p>
                         <p>Belum punya akun? 
                         <a role="button" class="text-primary"
                             onclick="toAuth('#formRegister', ['#formLogin', '#formForgot'])">Daftar Sekarang</a>
@@ -275,6 +278,35 @@
                         </div>
                     </div>
                 </form>
+
+                <form id="formForgot" class="pt-3 d-none" method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="mb-3 text-center">
+                        <h2 class="form-label">Lupa Kata Sandi</h2>
+                        <p class="text-muted">
+                            Masukkan email yang terdaftar. Kami akan mengirimkan link untuk mengatur ulang kata sandi Anda.
+                        </p>
+                    </div>
+
+                    <div class="mb-3" id="req_forgot_email">
+                        <label for="forgot_email" class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" id="forgot_email"
+                            placeholder="Masukkan email Anda" autocomplete="off" required>
+                    </div>
+
+                    <button onclick="submit_form(this,'#formForgot')" id="button_forgot" type="submit" class="btn btn-primary w-100">
+                        Kirim Link Reset
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <p>Sudah ingat kata sandi?
+                            <a role="button" class="text-primary"
+                                onclick="toAuth('#formLogin', ['#formForgot', '#formRegister'])">Login di sini</a>
+                        </p>
+                    </div>
+                </form>
+
+
             </div>
 
         </div>

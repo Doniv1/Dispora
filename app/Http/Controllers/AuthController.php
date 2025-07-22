@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Mail\SendOtpMail;
+use App\Mail\ResetPasswordLink;
 
 class AuthController extends Controller
 {
@@ -376,5 +377,192 @@ class AuthController extends Controller
     arsort($counts);
     return array_key_first($counts);
   }
+
+public function sendResetLinkEmail(Request $request)
+{
+  if (!$request->isMethod('post')) {
+    return redirect()->route('home');
+  }
+
+  $arrVar = [
+    'email' => 'Alamat email'
+  ];
+
+  $data = ['required' => [], 'arrAccess' => []];
+  $post = [];
+
+  foreach ($arrVar as $var => $label) {
+    $$var = $request->input($var);
+    if (!$$var) {
+      $data['required'][] = ['req_reset_' . $var, "$label tidak boleh kosong!"];
+      $data['arrAccess'][] = false;
+    } else {
+      $post[$var] = trim($$var);
+      $data['arrAccess'][] = true;
+    }
+  }
+
+  if (in_array(false, $data['arrAccess'])) {
+    return response()->json(['status' => false, 'required' => $data['required']]);
+  }
+
+  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    return response()->json([
+      'status' => 500,
+      'alert' => ['message' => 'Email tidak valid! Masukkan email yang benar']
+    ]);
+  }
+
+  // Cek user berdasarkan email
+  $user = \App\Models\User::where('email', $email)->where('deleted', 'N')->first();
+
+  if (!$user) {
+    return response()->json([
+      'status' => 500,
+      'alert' => ['message' => 'Email tidak ditemukan dalam sistem!']
+    ]);
+  }
+
+  if ($user->status == 'N') {
+    $reason = $user->reason ? ' dengan alasan </br></br><b>"' . $user->reason . '"</b></br></br>' : '!';
+    return response()->json([
+      'status' => 700,
+      'alert' => ['message' => 'Akun Anda telah diblokir' . $reason . ' Silakan hubungi admin untuk informasi lebih lanjut.']
+    ]);
+  }
+
+  // Generate token dan simpan ke DB
+  $token = Str::random(64);
+  DB::table('password_resets')->updateOrInsert(
+    ['email' => $email],
+    [
+      'token' => $token,
+      'created_at' => Carbon::now()
+    ]
+  );
+
+  // Kirim email reset via queue
+  Mail::to($email)->queue(new ResetPasswordLink($user->name, $email, $token));
+
+  return response()->json([
+    'status' => 200,
+    'alert' => ['message' => 'Link reset password telah dikirim ke email Anda. Silakan cek kotak masuk atau folder spam.']
+  ]);
+}
+
+public function showResetForm(Request $request, $token)
+{
+    $email = $request->query('email');
+
+    $check = DB::table('password_resets')
+        ->where('email', $email)
+        ->where('token', $token)
+        ->first();
+
+    if (!$check) {
+        return redirect()->route('home')->with('error', 'Token tidak valid atau sudah kadaluarsa.');
+    }
+
+    return view('auth.reset-password', compact('token', 'email'));
+}
+
+public function resetPassword(Request $request)
+{
+    $arrVar = [
+        'token' => 'Token',
+        'email' => 'Email',
+        'password' => 'Password',
+        'password_confirmation' => 'Konfirmasi Password'
+    ];
+
+    $data = ['required' => [], 'arrAccess' => []];
+    $post = [];
+
+    // Validasi manual (agar seragam dengan sendResetLinkEmail)
+    foreach ($arrVar as $var => $label) {
+        $$var = $request->input($var);
+        if (!$$var) {
+            $data['required'][] = ['req_reset_' . $var, "$label tidak boleh kosong!"];
+            $data['arrAccess'][] = false;
+        } else {
+            $post[$var] = trim($$var);
+            $data['arrAccess'][] = true;
+        }
+    }
+
+    if (in_array(false, $data['arrAccess'])) {
+        return response()->json(['status' => false, 'required' => $data['required']]);
+    }
+
+    // Validasi email format
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return response()->json([
+            'status' => 500,
+            'alert' => ['message' => 'Format email tidak valid!']
+        ]);
+    }
+
+    // Validasi password min & konfirmasi
+    if (strlen($password) < 8) {
+        return response()->json([
+            'status' => 500,
+            'alert' => ['message' => 'Password minimal 8 karakter!']
+        ]);
+    }
+
+    if ($password !== $password_confirmation) {
+        return response()->json([
+            'status' => 500,
+            'alert' => ['message' => 'Konfirmasi password tidak cocok!']
+        ]);
+    }
+
+    // Validasi token
+    $check = DB::table('password_resets')
+        ->where('email', $email)
+        ->where('token', $token)
+        ->first();
+
+    if (!$check) {
+        return response()->json([
+            'status' => 500,
+            'alert' => ['message' => 'Token tidak valid atau sudah kedaluwarsa!']
+        ]);
+    }
+
+    // Ambil user aktif
+    $user = User::where('email', $email)->where('deleted', 'N')->first();
+
+    if (!$user) {
+        return response()->json([
+            'status' => 500,
+            'alert' => ['message' => 'User tidak ditemukan dalam sistem!']
+        ]);
+    }
+
+    // Simpan password baru
+    $user->password = $password;
+    $user->updated_at = now();
+
+    if ($user->save()) {
+        DB::table('password_resets')->where('email', $email)->delete();
+        Auth::login($user); // login otomatis
+
+        return response()->json([
+            'status' => true,
+            'alert' => ['message' => 'Password berhasil diubah! Anda akan diarahkan ke beranda.'],
+            'redirect' => '/home'
+        ]);
+    }
+
+    return response()->json([
+        'status' => 500,
+        'alert' => ['message' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi nanti.']
+    ]);
+}
+
+
+
+
 
 }

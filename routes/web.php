@@ -155,6 +155,16 @@ Route::get('/report/export', function () {
 
 Route::get('cetak/pendaftaran/{id}', [UserController::class, 'cetakDiterima'])->name('cetak.pendaftaran.diterima');
 
+// Menampilkan halaman form ubah password berdasarkan email & token dari query string
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+
+// Kirim email reset password
+Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Simpan password baru
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

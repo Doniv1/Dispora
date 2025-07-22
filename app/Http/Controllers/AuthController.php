@@ -442,7 +442,7 @@ public function sendResetLinkEmail(Request $request)
   );
 
     // Kirim email
-    Mail::to($email)->send(new ResetPasswordMail($token, $email));
+    Mail::to($email)->queue(new ResetPasswordMail($token, $email));
 
   return response()->json([
     'status' => 200,

@@ -441,8 +441,8 @@ public function sendResetLinkEmail(Request $request)
     ]
   );
 
-  // Kirim email reset via queue
-  Mail::to($email)->queue(new ResetPasswordLink($user->name, $email, $token));
+    // Kirim email
+    Mail::to($email)->send(new ResetPasswordMail($token, $email));
 
   return response()->json([
     'status' => 200,

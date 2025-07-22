@@ -6,8 +6,9 @@ Kami menerima permintaan untuk mereset password akun Anda.
 Klik tombol di bawah ini untuk mengganti password Anda:
 
 @php
-   $link = 'https://dispora.viewapp.online/reset-password/' . $token . '?email=' . urlencode($email);
+    $link = config('app.url') . '/reset-password/' . $token . '?email=' . urlencode($email);
 @endphp
+
 
 @component('mail::button', ['url' => $link])
 Reset Password

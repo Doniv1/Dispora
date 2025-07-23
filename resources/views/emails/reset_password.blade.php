@@ -6,7 +6,7 @@ Kami menerima permintaan untuk mereset password akun Anda.
 Klik tombol di bawah ini untuk mengganti password Anda:
 
 @php
-    $link = config('app.url') . '/reset-password/' . $token . '?email=' . urlencode($email);
+    $link = rtrim(config('app.url'), '/') . '/reset-password/' . $token . '?email=' . urlencode($email);
 @endphp
 
 

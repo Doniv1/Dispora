@@ -42,16 +42,16 @@
                         </select>
                         <!--end::Select2-->
                     </div>
-                    <div class="w-100 mw-150px">
+                    <!-- <div class="w-100 mw-150px">
                         <!--begin::Select2-->
-                        <select onchange="filter_status(this)" class="form-select form-select-solid table-filter"
+                        <!-- <select onchange="filter_status(this)" class="form-select form-select-solid table-filter"
                             data-control="select2">
                             <option value="all">All</option>
                             <option value="Y">Account Active</option>
                             <option value="N">Account Inactive</option>
-                        </select>
+                        </select> -->
                         <!--end::Select2-->
-                    </div>
+                    <!-- </div> --> 
                     <!--begin::Add training-->
                     <a role="button" onclick="tambah_data()" data-bs-toggle="modal" data-bs-target="#kt_modal_training"
                         class="btn btn-primary">Tambah Data Pelatihan</a>

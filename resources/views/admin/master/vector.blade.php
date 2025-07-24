@@ -31,11 +31,11 @@
                 <div class="w-100 mw-150px">
                     
                     <!--begin::Select2-->
-                    <select onchange="filter_status(this)" class="form-select form-select-solid table-filter" data-control="select2">
+                    <!-- <select onchange="filter_status(this)" class="form-select form-select-solid table-filter" data-control="select2">
                         <option value="all">All</option>
                         <option value="Y">Account Active</option>
                         <option value="N">Account Inactive</option>
-                    </select>
+                    </select> -->
                     <!--end::Select2-->
                 </div>
                 <!--begin::Add vector-->
